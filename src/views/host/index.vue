@@ -159,6 +159,7 @@ import { getHosts, createHosts, updateHosts, deleteHosts } from '@/api/hosts/tab
 import { getGroups, createGroups } from '@/api/groups/group'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
+import { Base64 } from 'js-base64'
 
 export default {
   name: 'HostTable',
@@ -190,8 +191,8 @@ export default {
       listLoading: true,
       dialogStatus: '',
       textMap: {
-        update: 'Edit',
-        create: 'Create'
+        update: '修改主机',
+        create: '新增主机'
       },
       dialogFormVisible: false,
       groupFormVisible: false,
@@ -288,6 +289,7 @@ export default {
     },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
+      this.temp.hosts_password = Base64.decode(this.temp.hosts_password)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
